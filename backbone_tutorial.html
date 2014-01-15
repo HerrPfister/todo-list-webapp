@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+    	<meta charset="UTF-8">
+    	<title>BackBone Tutorial</title>
+        <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.mod.css"/>
+	</head>
+
+	<body>
+        <div class="main-list" id="list-items"></div>
+        <div class="main-list" id="trash-items"></div>
+        <div class="main-field" id="add-field"></div>
+
+        <!-- Templates -->  
+        <script type="text/template" id="tmpl-list">
+            <label class="task-title"> <%= content %> </label>
+        </script>
+
+        <script type="text/template" id="tmpl-list-body">
+            <label class="list-title"> <%= titleName %> </label>
+        </script>
+
+        <!-- Core Scripts -->
+		<script type="text/javascript" src="assets/js/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="assets/js/underscore-1.5.2.js"></script>
+		<script type="text/javascript" src="assets/js/backbone-1.1.0.js"></script>
+        <script type="text/javascript" scr="assets/js/bootstrap.min.js"></script>
+
+        <!--App Scripts -->
+        <script type="text/javascript" src="assets/js/models.js"></script>
+        <script type="text/javascript" src="assets/js/views.js"></script>
+        <script type="text/javascript" src="assets/js/routers.js"></script>
+        <script type="text/javascript" src="assets/js/collections.js"></script>
+
+        <!-- Other Scripts -->
+        <script type="text/javascript">
+            var main_router = new TodoRouter(); 
+            Backbone.history.start();
+        </script>
+
+	</body>
+</html>
