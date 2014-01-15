@@ -1,11 +1,10 @@
 var mongo = require('mongodb');
 
 var Server = mongo.Server,
-	DB = mongo.Db;
+	DB = mongo.Db; //rename mongo objects for ease-of-access
 
-var server = new Server('localhost', 27017, {auto_reconnect : true});
-var db = new DB('taskdb', server);
-
+var server = new Server('localhost', 27017, {auto_reconnect : true}); //setup a mongo server through port 27017, at 127.0.0.1
+var db = new DB('taskdb', server); //set database name to 'taskdb', and use the above server object for any further connections to it
 db.open(function(err, db)
 {
 	if(!err)
@@ -20,7 +19,7 @@ db.open(function(err, db)
 			}
 		});
 	}
-});
+}); //try connecting to the database 'taskdb' through the server. If it fails, do nothing, else grab the collection 'tasks' in the database. If not created, create it.
 
 exports.findAll = function(request, response)
 {
@@ -31,7 +30,7 @@ exports.findAll = function(request, response)
 			response.send(items);
 		});
 	});
-};
+}; //Grab all items in 'tasks' collection located in the database. Then send them back as an array of items.
 
 var populateDB = function()
 {
@@ -50,10 +49,10 @@ var populateDB = function()
 		date: new Date(),
 		completed: false,
 		content: "Learn backbone.js!"
-	}];
+	}]; //JSON Objects
 
 	db.collection('tasks', function(err, collection)
 	{
 		collection.insert(tasks, {safe:true}, function(err, result){});
-	});
+	}); //Add the list of JSON objects to the collection
 };
