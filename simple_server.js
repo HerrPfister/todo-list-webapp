@@ -8,12 +8,15 @@ var app = express(); //Express is a node module that does all the tedious work o
 app.configure(function()
 {
 	app.set('port', 3000); //set the port to 3000
-	app.use(express.static(path.join(__dirname, 'public'))); //set the file dir for all static files (html, etc)
+	app.use(express.bodyParser()); //needed to aquire the body of http get/posts
+	app.use(express.static(path.join(__dirname, 'public'))); //set the file dir for all static files (html, etc) to the app's path/public
+	app.use(app.router);
 })
 
-app.get('/list/tasks', todo.findAll) //When the url here is appendedm, the findAll function is called in the tasks.js file
+app.get('/tasks', todo.findAll); //When the url here is appendedm, the findAll function is called in the tasks.js file
+app.post('/tasks', todo.addNew); //POST
 
 http.createServer(app).listen(app.get('port'), function()
 {
-	console.log("Server listening on port " + app.get('port') + "...")
+	console.log("Server listening on port " + app.get('port') + " ...")
 }); //This will start up the server and (if successful) print out the above to the console

@@ -9,9 +9,9 @@
 	</head>
 
 	<body>
-        <div class="main-list" id="list-items"></div>
-        <div class="main-list" id="trash-items"></div>
-        <div class="main-field" id="add-field"></div>
+        <div class="main-elem" id="list-items"></div>
+        <div class="main-elem" id="trash-items"></div>
+        <div class="main-elem" id="add-field"></div>
 
         <!-- Templates -->  
         <script type="text/template" id="tmpl-list">
@@ -20,6 +20,11 @@
 
         <script type="text/template" id="tmpl-list-body">
             <label class="list-title"> <%= titleName %> </label>
+        </script>
+
+        <script type="text/template" id="tmpl-form">
+            <input id="<%= textFieldID %>" class="form-control" type="text" name="<%= textFieldName %>" placeholder="<%= textFieldHint %>" />
+            <a id="<%= buttonID %>" class="list-group-item col-md-4" href="<%= buttonURL %>"><%= buttonText %></a>
         </script>
 
         <!-- Core Scripts -->

@@ -32,6 +32,25 @@ exports.findAll = function(request, response)
 	});
 }; //Grab all items in 'tasks' collection located in the database. Then send them back as an array of items.
 
+exports.addNew = function(request, response)
+{
+	var task = request.body;
+	db.collection('tasks', function(err, collection)
+	{
+		collection.insert(task, {safe:true}, function(err,result){
+			if(err)
+			{
+				response.send({'error':'An error has occured while trying to add new task.'});
+			}
+			else
+			{
+				console.log("ADD SUCCESS");
+				response.send(result[0]);
+			}
+		});
+	});	
+};
+
 var populateDB = function()
 {
 	var tasks = [

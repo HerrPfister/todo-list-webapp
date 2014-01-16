@@ -46,12 +46,12 @@ var TrashView = Backbone.View.extend(
 
   initialize:function()
   {
+    console.info("CREATION: TRASH-VIEW");
     Backbone.actionSub.on("finished", this.addItem, this); //Tie a custom listener to view, and listen for custom event "throw-away"
   },
 
   render:function()
   {
-    console.info("CREATION: TRASH-VIEW");
     this.$el.append(this.trash_template({titleName: "Completed"}));
     return this;
   },
@@ -75,6 +75,7 @@ var TodoView = Backbone.View.extend(
 
   initialize:function()
   {
+    console.info("CREATION: TODO-VIEW");
     Backbone.actionSub.on("unfinished", this.addItem, this); //Tie a custom listener to view, and listen for custom event "throw-away"
   },
 
@@ -98,3 +99,42 @@ var TodoView = Backbone.View.extend(
     console.log("RESTORED");
   }
 });
+
+var AddFormView = Backbone.View.extend({
+  add_template: _.template($("#tmpl-form").html()),
+
+  className: "list-group",
+
+  events:
+  {
+    "click #addButton" : "addNewTask"
+  },
+
+  render:function()
+  {
+    this.$el.append(this.add_template(
+    {
+      textFieldID: "addTextField",
+      textFieldName: "task[content]",
+      textFieldHint: "Add new task here!",
+      buttonID: "addButton",
+      buttonURL: "",
+      buttonText: "Add Task"
+    }));
+
+    return this;
+  },
+
+  addNewTask:function()
+  {
+    var task = this.model.create({
+      date: new Date(),
+      completed: false,
+      content: $("#addTextField").val()
+    }, {wait:true}); //Create will create a new model, connect to the database, try adding it to the database and then either add to the client side collection or not.
+
+    $("#addTextField").val("");
+
+    return task;
+  }
+})
