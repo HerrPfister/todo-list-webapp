@@ -76,7 +76,7 @@ var TodoView = Backbone.View.extend(
   initialize:function()
   {
     console.info("CREATION: TODO-VIEW");
-    Backbone.actionSub.on('task_added', this.renderOne, this);
+    Backbone.actionSub.on('task_added', this.addItem, this);
     Backbone.actionSub.on("unfinished", this.addItem, this); //Tie a custom listener to view, and listen for custom event "throw-away"
   },
 
@@ -87,23 +87,19 @@ var TodoView = Backbone.View.extend(
     _.each(this.model.models, 
       function(todo)
       {
-        this.$el.append(new TodoItemView({model:todo}).render().el);
+        if(!todo.completed)
+        {
+          this.$el.append(new TodoItemView({model:todo}).render().el);
+        }
       }, 
       this); //Goes through each model in the collection that was passed in, and creates a TodoItem view for them.
 
     return this;
   },
 
-  renderOne:function(task)
-  {
-    this.$el.append(new TodoItemView({model:task}).render().el);
-    return this;
-  },
-
   addItem:function(item)
   {
     this.$el.append(new TodoItemView({model: item}).render().el);
-    console.log("RESTORED");
   }
 });
 
