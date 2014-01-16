@@ -3,7 +3,6 @@ Backbone.actionSub = _.extend({}, Backbone.Events); //Adds custom namespace to B
 
 var TodoItemView = Backbone.View.extend(
 {
-  //Since no tagName is listed this view will default to a div
 
   tagName: 'li',
 

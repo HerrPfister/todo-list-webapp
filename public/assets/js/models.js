@@ -10,7 +10,6 @@ var Todo = Backbone.Model.extend(
 	initialize: function(input)
 	{
 		//constructor
-		this.set({'content': input}, {validate: true});
 		console.info("CREATION: TODO");
 
 		this.on("change:content", function()
