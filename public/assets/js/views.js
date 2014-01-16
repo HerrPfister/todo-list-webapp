@@ -76,6 +76,7 @@ var TodoView = Backbone.View.extend(
   initialize:function()
   {
     console.info("CREATION: TODO-VIEW");
+    Backbone.actionSub.on('task_added', this.renderOne, this);
     Backbone.actionSub.on("unfinished", this.addItem, this); //Tie a custom listener to view, and listen for custom event "throw-away"
   },
 
@@ -93,12 +94,19 @@ var TodoView = Backbone.View.extend(
     return this;
   },
 
+  renderOne:function(task)
+  {
+    this.$el.append(new TodoItemView({model:task}).render().el);
+    return this;
+  },
+
   addItem:function(item)
   {
     this.$el.append(new TodoItemView({model: item}).render().el);
     console.log("RESTORED");
   }
 });
+
 
 var AddFormView = Backbone.View.extend({
   add_template: _.template($("#tmpl-form").html()),
@@ -118,7 +126,7 @@ var AddFormView = Backbone.View.extend({
       textFieldName: "task[content]",
       textFieldHint: "Add new task here!",
       buttonID: "addButton",
-      buttonURL: "",
+      buttonURL: "#",
       buttonText: "Add Task"
     }));
 
@@ -135,6 +143,8 @@ var AddFormView = Backbone.View.extend({
 
     $("#addTextField").val("");
 
+    Backbone.actionSub.trigger("task_added", task);
+
     return task;
   }
-})
+});

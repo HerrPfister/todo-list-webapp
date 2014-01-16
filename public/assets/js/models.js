@@ -9,7 +9,6 @@ var Todo = Backbone.Model.extend(
 	},
 	initialize: function(input)
 	{
-		//constructor
 		console.info("CREATION: TODO");
 
 		this.on("change:content", function()
@@ -24,14 +23,5 @@ var Todo = Backbone.Model.extend(
 			console.error("ERROR: CANNOT SET CONTENT OF TODO TO AN EMPTY TASK");
 			return "ERROR: EMPTY INPUT";
 		}
-	},
-	print: function()
-	{
-		if(this.get('content'))
-		{
-			console.log(this.get('content') + " on " + this.get('date').toString())
-			console.log("Completed: " + this.get('completed'));
-		}
 	}
-
 });

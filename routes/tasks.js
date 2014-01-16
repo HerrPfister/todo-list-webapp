@@ -1,10 +1,10 @@
 var mongo = require('mongodb');
-
-var Server = mongo.Server,
+	Server = mongo.Server,
 	DB = mongo.Db; //rename mongo objects for ease-of-access
+	server = new Server('localhost', 27017, {auto_reconnect : true}); //setup a mongo server through port 27017, at 127.0.0.1
+	db = new DB('taskdb', server); //set database name to 'taskdb', and use the above server object for any further connections to it
 
-var server = new Server('localhost', 27017, {auto_reconnect : true}); //setup a mongo server through port 27017, at 127.0.0.1
-var db = new DB('taskdb', server); //set database name to 'taskdb', and use the above server object for any further connections to it
+
 db.open(function(err, db)
 {
 	if(!err)
@@ -21,6 +21,7 @@ db.open(function(err, db)
 	}
 }); //try connecting to the database 'taskdb' through the server. If it fails, do nothing, else grab the collection 'tasks' in the database. If not created, create it.
 
+
 exports.findAll = function(request, response)
 {
 	db.collection('tasks', function(err, collection)
@@ -31,6 +32,7 @@ exports.findAll = function(request, response)
 		});
 	});
 }; //Grab all items in 'tasks' collection located in the database. Then send them back as an array of items.
+
 
 exports.addNew = function(request, response)
 {
@@ -50,6 +52,7 @@ exports.addNew = function(request, response)
 		});
 	});	
 };
+
 
 var populateDB = function()
 {
