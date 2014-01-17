@@ -51,7 +51,6 @@ exports.addNewTask = function(request, response)
 			}
 			else
 			{
-				console.log("SUCCESS: CREATE");
 				response.send(result[0]);
 			}
 		});
@@ -77,7 +76,6 @@ exports.updateTask = function(request, response)
 			}
 			else
 			{
-				console.log("SUCCESS: UPDATE");
 				response.send(task);
 			}
 		});
@@ -97,7 +95,6 @@ exports.removeTask = function(request, response)
 			}
 			else
 			{
-				console.log("SUCCESS: DELETE");
 				response.send(request.body);
 			}
 		});

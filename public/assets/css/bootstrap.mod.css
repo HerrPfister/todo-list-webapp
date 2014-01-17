@@ -1,9 +1,14 @@
+body
+{
+	text-align: center;
+}
+
 .list-group
 {
 	display: inline-block;
 	border: 2px solid;
 	border-radius: 5px;
-	width: 25%;
+	width: 80%;
 }
 
 .list-group-item
@@ -15,6 +20,7 @@
 .list-group-item:hover
 {
 	background-color: #FF6F00;
+
 }
 
 .list-title
@@ -37,4 +43,19 @@
 .btn-primary
 {
 	width: 100%;
+}
+
+.panel
+{
+	width: 35%;
+	display: inline-block;
+	border: 2px solid;
+	border-radius: 5px;
+}
+
+.panel-footer
+{
+	font-size: .5em;
+	font-style: italic;
+	text-align: left;
 }

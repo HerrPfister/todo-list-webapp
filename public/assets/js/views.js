@@ -43,7 +43,15 @@ var TodoItemView = Backbone.View.extend(
       input.fadeToggle('fast').addClass('hidden').siblings('label').fadeToggle('fast').removeClass('hidden');
 
       this.model.set('content', contentUpdate, {validate:true});
-      this.model.save(null, {wait:true});
+      this.model.save(null,{
+        success:function()
+        {
+          console.log("SUCCESS: UPDATE");
+        },
+        error:function(){
+          console.error("ERROR: UPDATE");
+        }
+      });
 
       input.val('');
     }
@@ -56,11 +64,11 @@ var TodoItemView = Backbone.View.extend(
     {
       success: function()
       {
-        console.info("Successful deletion");
+        console.info("SUCCESS: DELETE");
       },
       error:function()
       {
-        console.error("ERROR: DELETING");
+        console.error("ERROR: DELETE");
       }
     });
   }
