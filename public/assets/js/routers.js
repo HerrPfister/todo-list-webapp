@@ -14,8 +14,10 @@ var TodoRouter = Backbone.Router.extend(
 			$("#list-items").html(todoView.render().el);
 		}});
 
-		var trashView = new TrashView({model: todos});
-		$("#trash-items").html(trashView.render().el);
+		todos.fetch({success:function(){
+			var trashView = new TrashView({model: todos});
+			$("#trash-items").html(trashView.render().el);
+		}});
 
 		var addFormView = new AddFormView({model: todos}); //Pass in collection so that it can be referanced when the button in the view is clicked
 		$("#add-field").html(addFormView.render().el);

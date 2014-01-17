@@ -21,16 +21,17 @@ var TodoItemView = Backbone.View.extend(
     return this; //This makes the view reusable (sub-view)
   },
 
-  
   toggleComplete:function()
   {
+
+    this.model.set('completed', !this.model.get('completed'));
+    this.model.save(null, {wait:true}, {
+      success: function(updatedModel){
+        console.info(JSON.stringify(updatedModel));
+      }
+    });
+
     this.remove(this.$('label'));
-
-    this.model.set({'completed':!this.model.get('completed')});
-
-    this.model.url = "../tasks/" + this.model.get('_id'); // Set the url for the model. This url will, when the model is saved, send a PUT request to the server.
-
-    this.model.save();
 
     (this.$(".task-title").attr('class').contains("completed")) ? Backbone.actionSub.trigger("unfinished", this.model) : Backbone.actionSub.trigger("finished", this.model);
 
@@ -58,8 +59,12 @@ var TrashView = Backbone.View.extend(
     _.each(this.model.models, 
       function(todo)
       {
-        if(todo.completed)
+
+        if(todo.get('completed'))
+        {
+          console.log(todo.get('completed'));
           this.$el.append(new TodoItemView({model:todo}).render().el);
+        }
       }, 
       this); //Goes through each model in the collection that was passed in, and creates a TodoItem view for them.
 
@@ -97,7 +102,7 @@ var TodoView = Backbone.View.extend(
     _.each(this.model.models, 
       function(todo)
       {
-        if(!todo.completed)
+        if(!todo.get('completed'))
           this.$el.append(new TodoItemView({model:todo}).render().el);
       }, 
       this); //Goes through each model in the collection that was passed in, and creates a TodoItem view for them.

@@ -14,6 +14,8 @@ var Todo = Backbone.Model.extend(
 
 		console.log(JSON.stringify(this));
 
+		this.set('url', '../tasks/' + this.get('_id'));
+
 		this.on("change:content", function()
 		{
 			console.log("Content change to: " + this.get("content"))

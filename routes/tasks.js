@@ -35,7 +35,7 @@ exports.findAll = function(request, response)
 }; //Grab all items in 'tasks' collection located in the database. Then send them back as an array of items.
 
 
-exports.addNew = function(request, response)
+exports.addNewTask = function(request, response)
 {
 	var task = request.body;
 	db.collection('tasks', function(err, collection)
@@ -48,20 +48,25 @@ exports.addNew = function(request, response)
 			}
 			else
 			{
-				console.info("SUCCESS: CREATE");
+				console.log("SUCCESS: CREATE");
 				response.send(result[0]);
 			}
 		});
 	});	
 };
 
-exports.update = function(request, response)
+exports.updateTask = function(request, response)
 {
-	var id = request.params._id;
+	var id = request.params.id;
 	var task = request.body;
+	delete task._id;
 
-	db.collection('tasks', function(err,collection){
-		collection.update({'_id' : new BSON.ObjectID(id)}, task, {safe:true}, function(err, result){
+	console.log(JSON.stringify(task));
+
+	db.collection('tasks', function(err,collection)
+	{
+		collection.update({'_id' : new BSON.ObjectID(id)}, task, {safe:true}, function(err, result)
+		{
 			if(err)
 			{
 				console.error("ERROR: UPDATE");
@@ -69,8 +74,8 @@ exports.update = function(request, response)
 			}
 			else
 			{
-				console.info("SUCCESS: UPDATE");
-				response.send({'SUCCESS' : 'AWWWW YEAAAAHHHH BOOOYYYYYY!'});
+				console.log("SUCCESS: UPDATE");
+				response.send(task);
 			}
 		});
 	});
