@@ -1,7 +1,7 @@
-###Todo List
+##Todo List
 
 ####Description
-> This is a simple todo-list webapp created in JavaScript. The user can add, delete and edit tasks. All tasks will be saved to a database (specified in the ./simple_server.js and ./routes/tasks.js files).
+> This is a simple todo-list webapp created in JavaScript. The user can add, delete and edit tasks. All tasks will be saved to a database (specified in the **./simple_server.js** and **./routes/tasks.js files**).
 
 ####Instructions
 * **Add:** Click on the text input, type in brief description of task, and then click the button.
