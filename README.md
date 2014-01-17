@@ -9,12 +9,12 @@
 * **Edit:** Hover over one of the tasks and a text box will appear, type new task description and when the mouse leaves the box it will update.
 
 ####Stack
-* Node.js
-* Express
-* MongoDB
-* Backbone.js
-* jQuery
-* nodemon
+* [Node](http://nodejs.org/download/)
+* [jQuery](http://jquery.com/download/)
+* [MongoDB](http://www.mongodb.org/downloads)
+* [Backbone](http://backbonejs.org/)
+* [express](https://github.com/visionmedia/express)
+* [nodemon](https://github.com/remy/nodemon)
 
 
 
