@@ -38,6 +38,9 @@ exports.findAll = function(request, response)
 exports.addNewTask = function(request, response)
 {
 	var task = request.body;
+
+	console.log("ADDING: " + JSON.stringify(task));
+
 	db.collection('tasks', function(err, collection)
 	{
 		collection.insert(task, {safe:true}, function(err,result){
@@ -61,7 +64,7 @@ exports.updateTask = function(request, response)
 	var task = request.body;
 	delete task._id;
 
-	console.log(JSON.stringify(task));
+	console.log("UPDATING: " + JSON.stringify(task));
 
 	db.collection('tasks', function(err,collection)
 	{
@@ -81,22 +84,39 @@ exports.updateTask = function(request, response)
 	});
 };
 
+exports.removeTask = function(request, response)
+{
+	var id = request.params.id;
+
+	db.collection('tasks', function(err, collection){
+		collection.remove({'_id' : new BSON.ObjectID(id)}, {safe : true}, function(err, result){
+			if(err)
+			{
+				console.error("ERROR: DELETE");
+				response.send({'ERROR' : 'PROBLEM DELETING'});
+			}
+			else
+			{
+				console.log("SUCCESS: DELETE");
+				response.send(request.body);
+			}
+		});
+	});
+};
+
 var populateDB = function()
 {
 	var tasks = [
 	{
 		date: new Date(),
-		completed: false,
 		content: "Cook dinner."
 	},
 	{
 		date: new Date(),
-		completed: false,
 		content: "Clean room."
 	},
 	{
 		date: new Date(),
-		completed: false,
 		content: "Learn backbone.js!"
 	}]; //JSON Objects
 

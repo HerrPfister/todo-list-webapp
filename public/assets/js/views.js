@@ -12,73 +12,59 @@ var TodoItemView = Backbone.View.extend(
 
   events: //Event listeners for this particular view { "event" : "function to call" }
   {
-    "click" : "toggleComplete"
+    "dblclick" : "completeTask",
+    "mouseenter" : "toggleEdit",
+    "mouseleave" : "toggleEdit"
+  },
+
+  initialize:function()
+  {
+    this.model.on("change", this.render, this);
   },
 
   render: function()
   {
-    this.$el.html(this.my_template(this.model.toJSON())); //Passing in the JSON form of the model, so backbone can figure out what is needed for template variables
+    if(!this.model.validationError)
+      this.$el.html(this.my_template(this.model.toJSON())); //Passing in the JSON form of the model, so backbone can figure out what is needed for template variables
     return this; //This makes the view reusable (sub-view)
   },
 
-  toggleComplete:function()
+  toggleEdit: function()
   {
+    var label = this.$('label');
+    var input = this.$('input');
 
-    this.model.set('completed', !this.model.get('completed'));
-    this.model.save(null, {wait:true}, {
-      success: function(updatedModel){
-        console.info(JSON.stringify(updatedModel));
+    if(!label.attr('class').contains("hidden"))
+      label.fadeToggle('fast').addClass('hidden').siblings('input').fadeToggle('fast').removeClass('hidden');
+    else
+    {
+      var contentUpdate = input.val();
+
+      input.fadeToggle('fast').addClass('hidden').siblings('label').fadeToggle('fast').removeClass('hidden');
+
+      this.model.set('content', contentUpdate, {validate:true});
+      this.model.save(null, {wait:true});
+
+      input.val('');
+    }
+  },
+
+  completeTask:function()
+  {
+    this.$el.slideToggle(1000);
+    this.model.destroy(
+    {
+      success: function()
+      {
+        console.info("Successful deletion");
+      },
+      error:function()
+      {
+        console.error("ERROR: DELETING");
       }
     });
-
-    this.remove(this.$('label'));
-
-    (this.$(".task-title").attr('class').contains("completed")) ? Backbone.actionSub.trigger("unfinished", this.model) : Backbone.actionSub.trigger("finished", this.model);
-
-  },
+  }
 });
-
-
-var TrashView = Backbone.View.extend(
-{
-  tagName: 'ul',
-
-  className: "list-group",
-
-  trash_template: _.template($("#tmpl-list-body").html()),
-
-  initialize:function()
-  {
-    console.info("CREATION: TRASH-VIEW");
-    Backbone.actionSub.on("finished", this.addItem, this); //Tie a custom listener to view, and listen for custom event "throw-away"
-  },
-
-  render:function()
-  {
-    this.$el.append(this.trash_template({titleName: "Completed"}));
-    _.each(this.model.models, 
-      function(todo)
-      {
-
-        if(todo.get('completed'))
-        {
-          console.log(todo.get('completed'));
-          this.$el.append(new TodoItemView({model:todo}).render().el);
-        }
-      }, 
-      this); //Goes through each model in the collection that was passed in, and creates a TodoItem view for them.
-
-    return this;
-  },
-
-  addItem:function(item)
-  {
-    this.$el.append(new TodoItemView({model: item}).render().el);
-    this.$(".task-title").addClass("completed");
-    console.log("TRASHED");
-  },
-});
-
 
 var TodoView = Backbone.View.extend(
 {
@@ -92,18 +78,16 @@ var TodoView = Backbone.View.extend(
   {
     console.info("CREATION: TODO-VIEW");
     Backbone.actionSub.on('task_added', this.addItem, this);
-    Backbone.actionSub.on("unfinished", this.addItem, this); //Tie a custom listener to view, and listen for custom event "throw-away"
   },
 
   render:function()
   {
-    this.$el.append(this.todo_template({titleName: "Todo List"}));
+    this.$el.append(this.todo_template({titleName: "Todo"}));
 
     _.each(this.model.models, 
       function(todo)
       {
-        if(!todo.get('completed'))
-          this.$el.append(new TodoItemView({model:todo}).render().el);
+        this.$el.append(new TodoItemView({model:todo}).render().el);
       }, 
       this); //Goes through each model in the collection that was passed in, and creates a TodoItem view for them.
 
@@ -133,7 +117,7 @@ var AddFormView = Backbone.View.extend({
     {
       textFieldID: "addTextField",
       textFieldName: "task[content]",
-      textFieldHint: "Add new task here!",
+      textFieldHint: "What do you need to do?",
       buttonID: "addButton",
       buttonURL: "#",
       buttonText: "Add Task"

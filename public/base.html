@@ -10,12 +10,12 @@
 
 	<body>
         <div class="main-elem" id="list-items"></div>
-        <div class="main-elem" id="trash-items"></div>
         <div class="main-elem" id="add-field"></div>
 
         <!-- Templates -->  
         <script type="text/template" id="tmpl-list">
             <label class="task-title"> <%= content %> </label>
+            <input class="hidden" type="text" name="name.<%= _id =>" placeholder="What should this task be?" />
         </script>
 
         <script type="text/template" id="tmpl-list-body">

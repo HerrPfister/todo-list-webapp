@@ -16,6 +16,7 @@ app.configure(function()
 app.get('/tasks', todo.findAll); //When the url here is appendedm, the findAll function is called in the tasks.js file
 app.post('/tasks', todo.addNewTask); //POST
 app.put('/tasks/:id', todo.updateTask); //PUT
+app.delete('/tasks/:id', todo.removeTask);
 
 http.createServer(app).listen(app.get('port'), function()
 {
