@@ -6,7 +6,7 @@
 
 * **Add:** Click on the text input, type in brief description of task, and then click the button.
 * **Delete:** Double-click one of the tasks in the list.
-* **Edit: ** Hover over one of the tasks and a text box will appear, type new task description and when the mouse leaves the box it will update.
+* **Edit:** Hover over one of the tasks and a text box will appear, type new task description and when the mouse leaves the box it will update.
 
 ####Stack
 
@@ -17,4 +17,4 @@
 * jQuery
 * nodemon
 
-Created by **Matthew Pfister**
+######Created by **Matthew Pfister**
