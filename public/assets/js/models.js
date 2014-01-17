@@ -1,5 +1,6 @@
 var Todo = Backbone.Model.extend(
 {
+	idAttribute: '_id',
 
 	defaults: 
 	{
@@ -10,6 +11,8 @@ var Todo = Backbone.Model.extend(
 	initialize: function(input)
 	{
 		console.info("CREATION: TODO");
+
+		console.log(JSON.stringify(this));
 
 		this.on("change:content", function()
 		{

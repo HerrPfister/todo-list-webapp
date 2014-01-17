@@ -11,10 +11,11 @@ app.configure(function()
 	app.use(express.bodyParser()); //needed to aquire the body of http get/posts
 	app.use(express.static(path.join(__dirname, 'public'))); //set the file dir for all static files (html, etc) to the app's path/public
 	app.use(app.router);
-})
+});
 
 app.get('/tasks', todo.findAll); //When the url here is appendedm, the findAll function is called in the tasks.js file
 app.post('/tasks', todo.addNew); //POST
+app.put('/tasks/:id', todo.update); //PUT
 
 http.createServer(app).listen(app.get('port'), function()
 {

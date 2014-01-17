@@ -1,7 +1,8 @@
 var mongo = require('mongodb');
 	Server = mongo.Server,
-	DB = mongo.Db; //rename mongo objects for ease-of-access
-	server = new Server('localhost', 27017, {auto_reconnect : true}); //setup a mongo server through port 27017, at 127.0.0.1
+	DB = mongo.Db, //rename mongo objects for ease-of-access
+	BSON = mongo.BSONPure;
+	server = new Server('localhost', 27017, {auto_reconnect : true}), //setup a mongo server through port 27017, at 127.0.0.1
 	db = new DB('taskdb', server); //set database name to 'taskdb', and use the above server object for any further connections to it
 
 
@@ -42,17 +43,38 @@ exports.addNew = function(request, response)
 		collection.insert(task, {safe:true}, function(err,result){
 			if(err)
 			{
-				response.send({'error':'An error has occured while trying to add new task.'});
+				console.error("ERROR: CREATE");
+				response.send({'ERROR':'PROBLEM CREATING'});
 			}
 			else
 			{
-				console.log("ADD SUCCESS");
+				console.info("SUCCESS: CREATE");
 				response.send(result[0]);
 			}
 		});
 	});	
 };
 
+exports.update = function(request, response)
+{
+	var id = request.params._id;
+	var task = request.body;
+
+	db.collection('tasks', function(err,collection){
+		collection.update({'_id' : new BSON.ObjectID(id)}, task, {safe:true}, function(err, result){
+			if(err)
+			{
+				console.error("ERROR: UPDATE");
+				response.send({'ERROR' : 'PROBLEM UPDATING'});
+			}
+			else
+			{
+				console.info("SUCCESS: UPDATE");
+				response.send({'SUCCESS' : 'AWWWW YEAAAAHHHH BOOOYYYYYY!'});
+			}
+		});
+	});
+};
 
 var populateDB = function()
 {
