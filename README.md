@@ -1,6 +1,6 @@
 ###Todo List
 
-> This is a simple todo list webapp created in javascript
+> This is a simple todo list webapp created in javascript.
 
 ####Stack
 

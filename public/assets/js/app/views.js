@@ -13,8 +13,8 @@ var TodoItemView = Backbone.View.extend(
   events: //Event listeners for this particular view { "event" : "function to call" }
   {
     "dblclick" : "completeTask",
-    "mouseenter" : "toggleEdit",
-    "mouseleave" : "toggleEdit"
+    "mouseenter" : "beginEdit",
+    "mouseleave" : "finishEdit"
   },
 
   initialize:function()
@@ -29,32 +29,38 @@ var TodoItemView = Backbone.View.extend(
     return this; //This makes the view reusable (sub-view)
   },
 
-  toggleEdit: function()
+  beginEdit: function()
   {
     var label = this.$('label');
     var input = this.$('input');
 
-    if(!label.attr('class').contains("hidden"))
-      label.fadeToggle('fast').addClass('hidden').siblings('input').fadeToggle('fast').removeClass('hidden');
-    else
+    label.fadeToggle('fast').addClass('hidden');
+    input.fadeToggle('fast').removeClass('hidden');
+  },
+
+  finishEdit: function(){
+    var label = this.$('label');
+    var input = this.$('input');
+    var contentUpdate = input.val();
+
+    input.fadeToggle('fast').addClass('hidden');
+    label.fadeToggle('fast').removeClass('hidden');
+
+    if(this.model.set('content', contentUpdate, {validate:true}))
     {
-      var contentUpdate = input.val();
-
-      input.fadeToggle('fast').addClass('hidden').siblings('label').fadeToggle('fast').removeClass('hidden');
-
-      this.model.set('content', contentUpdate, {validate:true});
       this.model.save(null,{
         success:function()
         {
           console.log("SUCCESS: UPDATE");
         },
-        error:function(){
+        error:function()
+        {
           console.error("ERROR: UPDATE");
         }
       });
-
-      input.val('');
     }
+
+    input.val('');
   },
 
   completeTask:function()
@@ -84,7 +90,6 @@ var TodoView = Backbone.View.extend(
 
   initialize:function()
   {
-    console.info("CREATION: TODO-VIEW");
     Backbone.actionSub.on('task_added', this.addItem, this);
   },
 

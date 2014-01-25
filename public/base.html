@@ -4,8 +4,11 @@
 	<head>
     	<meta charset="UTF-8">
     	<title>Todo List</title>
+
+        <!-- Styles -->
         <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.mod.css"/>
+
 	</head>
 
 	<body>
@@ -32,19 +35,16 @@
             <a id="<%= buttonID %>" class="list-group-item col-md-4" href="<%= buttonURL %>"><%= buttonText %></a>
         </script>
 
-        <!-- Core Scripts -->
-		<script type="text/javascript" src="assets/js/lib/jquery-1.10.2.js"></script>
-		<script type="text/javascript" src="assets/js/lib/underscore-1.5.2.js"></script>
-		<script type="text/javascript" src="assets/js/lib/backbone-1.1.0.js"></script>
-        <script type="text/javascript" scr="assets/js/lib/bootstrap.min.js"></script>
-
-        <!--App Scripts -->
-        <script type="text/javascript" src="assets/js/models.js"></script>
-        <script type="text/javascript" src="assets/js/views.js"></script>
-        <script type="text/javascript" src="assets/js/routers.js"></script>
-        <script type="text/javascript" src="assets/js/collections.js"></script>
-
-        <!-- Other Scripts -->
+        <!-- Scripts -->
+        <!--<script data-main="assets/js/main.js" src="assets/js/lib/require.js"></script>-->
+        <script type="text/javascript" src="assets/js/lib/jquery.js"></script>
+        <script type="text/javascript" src="assets/js/lib/underscore.js"></script>
+        <script type="text/javascript" src="assets/js/lib/backbone.js"></script>
+        <script type="text/javascript" src="assets/js/lib/bootstrap.min.js"></script>
+        <script type="text/javascript" src="assets/js/app/models.js"></script>
+        <script type="text/javascript" src="assets/js/app/routers.js"></script>
+        <script type="text/javascript" src="assets/js/app/views.js"></script>
+        <script type="text/javascript" src="assets/js/app/collections.js"></script>
         <script type="text/javascript">
             var main_router = new TodoRouter(); 
             Backbone.history.start();
